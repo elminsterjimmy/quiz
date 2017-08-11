@@ -1,0 +1,23 @@
+<div id="main" class="full-screen h-center">
+	<form>
+		<div class="quiz">
+			<h3>{{ctl.currentQuiz.quiz}}</h3>
+		</dir>
+		<div class="tip">
+			<h5 ng-bind-html="ctl.tip"></h5>
+		</div>
+		<div class="options">
+			<div ng-repeat="option in ctl.currentQuiz.options track by $index">
+				<div ng-if="ctl.single" class="radio">
+				 <label><input type="radio" ng-model="ctl.result" ng-value="$index" name="options">{{option}}</label>
+				</div>
+				<div ng-if="!ctl.single" class="checkbox">
+				<label><input type="checkbox" ng-value="$index" name="options" ng-click="ctl.toggleSelection($index + 1)">{{option}}</label>
+				</div>
+			</div>
+		</div>
+		<div class="controller">
+			<button type="button" class="btn btn-primary" ng-click="ctl.check()" ng-disabled="!ctl.result">Submit</button>
+		</div>
+	</form>
+</div>

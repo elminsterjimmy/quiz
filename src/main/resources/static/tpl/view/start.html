@@ -1,0 +1,15 @@
+<div id="starter" class="full-screen h-center">
+<div class="v-center">
+  <div class="quiz-selection">
+	  <ui-select ng-model="ctl.selected" theme="bootstrap">
+	  	<ui-select-match placeholder="Select or search a person in the list..."><span ng-if="$select.selected.length > 0">{{$select.selected}}<span></ui-select-match>
+			<ui-select-choices repeat="item in ctl.quizzes">
+		  	<div ng-bind-html="item | highlight: $select.search"></div>
+			</ui-select-choices>
+	  </ui-select>
+  </div>
+	<div>
+		<button type="submit" class="btn btn-lg btn-primary" ng-click="ctl.startQuiz();" ng-disabled="!ctl.selected">Start Quiz</button>
+	</div>
+</div>
+</div>

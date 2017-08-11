@@ -1,0 +1,26 @@
+{
+  quizes: [
+    {
+      no: 1,
+      quiz: "Q1",
+      options: ["op11", "op12", "op13"],
+      answer:[1],
+      tip: "tip1",
+      next: 2
+    },
+    {
+      no: 2,
+      quiz: "Q2",
+      options: ["op21", "op22", "op23", "op24"],
+      answer:[2],
+      tip: "tip2",
+      next: 3},
+    {
+      no: 3,
+      quiz: "Q3",
+      options: ["op31", "op32", "op33"],
+      answer:[1,2,3],
+      tip: "tip3",
+      next: -1}
+  ]
+}

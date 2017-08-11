@@ -1,0 +1,1 @@
+angular.module('quiz', [ 'ui.router', 'oc.lazyLoad', 'ngAnimate', 'ui.bootstrap', 'ngCookies', 'ngMessages', 'ngSanitize', 'ui.select' ]);

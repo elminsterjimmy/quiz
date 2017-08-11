@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <version>1.0.0</version>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.6.RELEASE</version>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.elminster</groupId>
+      <artifactId>commons</artifactId>
+      <version>1.20.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elminster</groupId>
+      <artifactId>web-commons</artifactId>
+      <version>1.20.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <java.version>1.7</java.version>
+  </properties>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <excludeDefaultDirectories>false</excludeDefaultDirectories>
+          <filesets>
+            <fileset>
+              <directory>${basedir}/logs</directory>
+              <directory>${basedir}/distribution</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-antrun-plugin</artifactId>
+      <executions>
+        <execution>
+          <id>generateShells</id>
+          <phase>generate-resources</phase>
+          <configuration>
+            <tasks>
+              <echo message="generate start shells" />
+              <mkdir dir="${project.basedir}/shell" />
+              <echo file="${project.basedir}/shell/start.bat"
+                message="start java -jar ${project.artifactId}-${project.version}.jar" />
+              <echo file="${project.basedir}/shell/start.sh"
+                message="nohup java -jar ${project.artifactId}-${project.version}.jar &amp;" 
+              />
+              <echo file="${project.basedir}/shell/stop.sh" message="kill -9 `ps -ef | grep ${project.artifactId} | awk '{print 
+                $2}'`" />
+            </tasks>
+          </configuration>
+          <goals>
+            <goal>run</goal>
+          </goals>
+        </execution>
+        <execution>
+            <id>copyDistribution</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                <echo message="copy distribution" />
+                <tstamp>
+                  <format property="time.stamp" pattern="yyyyMMdd" />
+                </tstamp>
+                <copy tofile="${project.basedir}/distribution/quiz-${project.version}-${time.stamp}.zip">
+                  <fileset dir="${project.basedir}/target/">
+                    <include name="*-assembly.zip" />
+                  </fileset>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+      </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>assemble</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptor>assembly/assembly.xml</descriptor>
+              <classifier>zip</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <artifactId>quiz</artifactId>
+  <groupId>com.elminster</groupId>
+</project>
